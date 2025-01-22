@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Syntea-Style Prototype (Tutor-Approved Community Assets + Forum)</title>
+  <style>
+    /* =============================
+       SYNTEA-INSPIRED DARK STYLE + LAYOUT
+       ============================= */
+
+    * {
+      box-sizing: border-box;
+      margin: 0; 
+      padding: 0;
+    }
+    body {
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      background-color: #1F222A;
+      color: #EAEAEA;
+      line-height: 1.6;
+    }
+
+    /* TOP NAV */
+    .top-nav {
+      background-color: #1A1C23;
+      border-bottom: 1px solid #2D3138;
+      display: flex;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+    .top-nav h2 {
+      font-size: 1.2rem;
+      color: #EAEAEA;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+    .top-nav h2::before {
+      content: '📘';
+      font-size: 1.2rem;
+      margin-right: 0.5rem;
+    }
+
+    /* MAIN CONTAINER: TWO COLUMNS BELOW NAV */
+    .main-container {
+      display: flex;
+      min-height: calc(100vh - 60px);
+    }
+
+    /* LEFT COLUMN: CONTENT */
+    .left-column {
+      flex: 0 0 60%;
+      padding: 2rem;
+      overflow-y: auto;
+      border-right: 1px solid #2D3138;
+      background-color: #1F222A;
+    }
+    .left-column h1 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: #EAEAEA;
+    }
+    .left-column h2 {
+      font-size: 1.15rem;
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: #EAEAEA;
+    }
+    .left-column p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+      color: #C6C6C6;
+    }
+
+    /* RIGHT COLUMN: CHAT + ASSETS DRAWER */
+    .right-column {
+      flex: 1; 
+      display: flex;
+      flex-direction: column;
+      background-color: #23262F;
+      position: relative;
+      overflow: hidden;
+    }
+    .toggle-assets-btn {
+      background: none;
+      border: none;
+      color: #EAEAEA;
+      padding: 1rem;
+      text-align: left;
+      cursor: pointer;
+      font-size: 0.95rem;
+      border-bottom: 1px solid #2D3138;
+      transition: background 0.2s;
+    }
+    .toggle-assets-btn:hover {
+      background: #2D3138;
+    }
+    .toggle-assets-btn::before {
+      content: '📎 ';
+      font-size: 1rem;
+    }
+
+    /* CHAT CONTAINER */
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+    }
+    .chat-messages {
+      flex: 1;
+      border: 1px solid #2D3138;
+      border-radius: 6px;
+      padding: 1rem;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+      background-color: #1F222A;
+    }
+    .chat-message {
+      margin-bottom: 0.7rem;
+      line-height: 1.4;
+    }
+    .chat-message.bot {
+      color: #93CEF2; /* bot color in screenshot (blueish) */
+    }
+    .chat-message.user {
+      color: #FFD580; /* user color (goldish) */
+      text-align: right;
+    }
+    .chat-input-area {
+      display: flex;
+      gap: 0.5rem;
+      border-top: 1px solid #2D3138;
+      padding-top: 1rem;
+    }
+    .chat-input-area input {
+      flex: 1;
+      padding: 0.5rem;
+      border-radius: 4px;
+      background: #2D3138;
+      border: 1px solid #3A3F45;
+      color: #EAEAEA;
+    }
+    .chat-input-area button {
+      background: #3A3F45;
+      border: 1px solid #4A4F55;
+      color: #EAEAEA;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .chat-input-area button:hover {
+      background: #4A4F55;
+    }
+
+    /* SLIDING ASSETS DRAWER */
+    .assets-drawer {
+      position: absolute;
+      top: 0; 
+      right: 0;
+      width: 300px;
+      height: 100%;
+      background-color: #1E2026;
+      box-shadow: -2px 0 6px rgba(0,0,0,0.5);
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      z-index: 10;
+    }
+    .assets-drawer.open {
+      transform: translateX(0);
+    }
+    .drawer-title {
+      font-size: 1rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #2D3138;
+      padding-bottom: 0.5rem;
+    }
+    .drawer-section {
+      margin-bottom: 2rem;
+    }
+    .asset-icon {
+      width: 100%;
+      height: 40px;
+      border-radius: 6px;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #EAEAEA;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      transition: transform 0.2s;
+      cursor: pointer;
+      box-shadow: inset 0 0 0 1px #3A3F45;
+      position: relative;
+    }
+    .asset-icon:hover {
+      transform: translateY(-2px);
+    }
+
+    /* STAR LABEL FOR TUTOR-APPROVED COMMUNITY ASSETS */
+    .asset-icon .tutor-approved {
+      position: absolute;
+      top: -10px; 
+      right: -10px;
+      background: #FFC107;
+      color: #333;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      font-weight: 700;
+    }
+
+    /* HIGHLIGHT POPUP */
+    .highlight-popup {
+      position: absolute;
+      background: #2A2F35;
+      border: 1px solid #3A3F45;
+      border-radius: 6px;
+      padding: 8px 10px;
+      display: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      z-index: 9999;
+    }
+    .highlight-popup button {
+      margin: 0 4px;
+      background: #3A3F45;
+      border: 1px solid #4A4F55;
+      color: #EAEAEA;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-size: 0.75rem;
+    }
+    .highlight-popup button:hover {
+      background: #4A4F55;
+    }
+
+    /* MODAL OVERLAY & CONTENT */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+    }
+    .modal-content {
+      background: #2A2F35;
+      color: #EAEAEA;
+      padding: 2rem;
+      border-radius: 8px;
+      width: 400px;
+      max-width: 90%;
+      position: relative;
+      border: 1px solid #3A3F45;
+    }
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      border: none;
+      background: transparent;
+      font-size: 1.4rem;
+      color: #EAEAEA;
+      cursor: pointer;
+    }
+    .voting-buttons {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+    }
+    .voting-buttons button {
+      font-size: 1.2rem;
+      background: #3A3F45;
+      border: 1px solid #4A4F55;
+      color: #EAEAEA;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+      padding: 0.4rem 0.7rem;
+    }
+    .voting-buttons button:hover {
+      background: #4A4F55;
+    }
+
+    /* FORUM STYLING (FAKE COMMENTS) */
+    .forum-section {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #3A3F45;
+    }
+    .forum-section h4 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+    .forum-message {
+      margin-bottom: 0.4rem;
+      line-height: 1.4;
+    }
+    .forum-message strong {
+      color: #FFD580;
+    }
+    .forum-message.tutor strong {
+      color: #93CEF2; 
+    }
+
+    /* RE-HIGHLIGHT CLASS */
+    .re-highlight {
+      background-color: #0053ba;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="top-nav">
+  <h2>Study Material</h2>
+</div>
+
+<!-- MAIN CONTENT AREA -->
+<div class="main-container">
+  <!-- LEFT COLUMN: highlightable text -->
+  <div class="left-column" id="textContainer">
+    <h1>Introduction</h1>
+
+    <h2>Topic 1: IoT Network Capabilities and Limitations</h2>
+    <p>
+      IoT networks' capabilities are typically limited compared to IT networks.
+      Most wireless IoT networks are lossy and constrained, restricting data speeds.
+    </p>
+    <p>
+      Real-Life Example: Imagine trying to stream a movie on a network designed
+      for short messages, like a walkie-talkie instead of a phone.
+    </p>
+
+    <h2>Topic 2: Minimizing Connectivity Fees</h2>
+    <p>
+      IoT networks must be designed so connectivity fees are minimized. In some
+      IoT use cases, sensors must be deployed in remote areas where standard
+      communication may be limited.
+    </p>
+    <p>
+      Real-Life Example: Think of it like building roads in a dense forest—it's
+      challenging but necessary to connect remote areas.
+    </p>
+
+    <h2>Topic 3: Processing and Power Limitations</h2>
+    <p>
+      Inexpensive IoT sensors have limited processing and power capabilities.
+      Various communication standards and lightweight protocols help address
+      these needs.
+    </p>
+    <p>
+      Real-Life Example: It's like using a tiny pocket calculator instead of
+      a full-blown computer.
+    </p>
+  </div>
+
+  <!-- RIGHT COLUMN: Chat + Assets Drawer -->
+  <div class="right-column">
+    <button class="toggle-assets-btn" id="toggleAssetsBtn">Show Assets</button>
+
+    <!-- Chat Container -->
+    <div class="chat-container">
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-message bot">
+          Awesome work! You've scored 80%, making great strides in understanding network topologies. 🚀
+        </div>
+        <div class="chat-message bot">
+          I've logged your progress. Want to check the overall progress report?
+        </div>
+        <div class="chat-message user">
+Wow - thanks, Syntea! Not really. Let's just study.
+</div>
+        
+<div class="chat-message bot">
+          How about we dive into the next part of your Internet of Things course?   
+        </div>
+        <div class="chat-message user">
+Sounds great.
+</div>
+      
+<div class="chat-message bot">
+Highlight text at any time so we can dive deeper or create some personalized content just for you!
+</div> 
+      
+
+
+</div>
+      <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="Type your message...">
+        <button id="sendBtn">Send</button>
+      </div>
+    </div>
+
+    <!-- Sliding Drawer for Assets -->
+    <div class="assets-drawer" id="assetsDrawer">
+      <div class="drawer-section">
+        <div class="drawer-title">Generated Assets</div>
+        <div id="myAssets"></div>
+      </div>
+      <div class="drawer-section">
+        <div class="drawer-title">Community Assets</div>
+        <div id="communityAssets">
+          <!-- data-community="true" so we know to show "Tutor-approved!" and a forum -->
+          <div class="asset-icon" data-asset-type="Podcast"    data-community="true">Podcast</div>
+          <div class="asset-icon" data-asset-type="Flashcards" data-community="true">Flashcards</div>
+          <div class="asset-icon" data-asset-type="Explain"    data-community="true">Explain</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HIGHLIGHT POPUP -->
+<div id="highlightPopup" class="highlight-popup">
+  <button id="btnPodcast">🎧 Podcast</button>
+  <button id="btnFlashcards">🗂 Flashcards</button>
+  <button id="btnExplain">🧐 Explain</button>
+  <button id="btnExample">🤔 Example</button>
+</div>
+
+<!-- MODAL OVERLAY -->
+<div id="modalOverlay" class="modal-overlay">
+  <div class="modal-content">
+    <button class="close-button" id="closeModalBtn">&times;</button>
+    <div id="modalBody">Placeholder content</div>
+    <div class="voting-buttons">
+      <button id="upvoteBtn">👍</button>
+      <button id="downvoteBtn">👎</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================================
+   GLOBAL REFS & STATE
+=============================== */
+const textContainer    = document.getElementById('textContainer');
+const highlightPopup   = document.getElementById('highlightPopup');
+
+const toggleAssetsBtn  = document.getElementById('toggleAssetsBtn');
+const assetsDrawer     = document.getElementById('assetsDrawer');
+let drawerOpen         = false;
+
+const chatMessages     = document.getElementById('chatMessages');
+const chatInput        = document.getElementById('chatInput');
+const sendBtn          = document.getElementById('sendBtn');
+
+const myAssets         = document.getElementById('myAssets');
+const communityAssets  = document.getElementById('communityAssets');
+
+const btnPodcast       = document.getElementById('btnPodcast');
+const btnFlashcards    = document.getElementById('btnFlashcards');
+const btnExplain       = document.getElementById('btnExplain');
+const btnExample       = document.getElementById('btnExample');
+
+const modalOverlay     = document.getElementById('modalOverlay');
+const closeModalBtn    = document.getElementById('closeModalBtn');
+const modalBody        = document.getElementById('modalBody');
+const upvoteBtn        = document.getElementById('upvoteBtn');
+const downvoteBtn      = document.getElementById('downvoteBtn');
+
+let userAssetsData     = [];
+
+/* Color-coded background + emoji for each asset type */
+const ASSET_STYLES = {
+  Podcast:    { bg: '#4A768E', emoji: '🎧 ' },
+  Flashcards: { bg: '#865B2F', emoji: '🗂 ' },
+  Explain:    { bg: '#4F6B8F', emoji: '🧐 ' },
+  Example:    { bg: '#5A8F4F', emoji: '🤔 ' }
+};
+
+/* ================================
+   1) ASSETS DRAWER TOGGLE
+=============================== */
+toggleAssetsBtn.addEventListener('click', () => {
+  drawerOpen = !drawerOpen;
+  if (drawerOpen) {
+    assetsDrawer.classList.add('open');
+    toggleAssetsBtn.textContent = "Hide Assets";
+  } else {
+    assetsDrawer.classList.remove('open');
+    toggleAssetsBtn.textContent = "Show Assets";
+  }
+});
+
+/* ================================
+   2) CHAT FUNCTIONALITY
+=============================== */
+sendBtn.addEventListener('click', sendChatMessage);
+chatInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    sendChatMessage();
+  }
+});
+
+function sendChatMessage() {
+  const msg = chatInput.value.trim();
+  if (!msg) return;
+
+  // user message
+  addChatMessage(msg, 'user');
+  chatInput.value = '';
+
+  // mock bot response
+  setTimeout(() => {
+    addChatMessage("I'm Syntea", 'bot');
+  }, 400);
+}
+
+function addChatMessage(text, sender) {
+  const div = document.createElement('div');
+  div.classList.add('chat-message', sender);
+  div.textContent = text;
+  chatMessages.appendChild(div);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+/* ================================
+   3) HIGHLIGHT POPUP
+=============================== */
+document.addEventListener('mouseup', () => {
+  const selection = window.getSelection();
+  if (!selection.rangeCount) {
+    highlightPopup.style.display = 'none';
+    return;
+  }
+  const range = selection.getRangeAt(0);
+  const selectedText = selection.toString().trim();
+
+  // Show popup only if selection in #textContainer
+  if (!selectedText || !textContainer.contains(range.commonAncestorContainer)) {
+    highlightPopup.style.display = 'none';
+    return;
+  }
+
+  const rect = range.getBoundingClientRect();
+  highlightPopup.style.top  = (window.scrollY + rect.top - highlightPopup.offsetHeight - 8) + 'px';
+  highlightPopup.style.left = (window.scrollX + rect.left) + 'px';
+  highlightPopup.style.display = 'block';
+});
+
+function getOffsetsForRange(range) {
+  const start = getOffsetInContainer(range.startContainer, range.startOffset);
+  const end   = getOffsetInContainer(range.endContainer,   range.endOffset);
+  return { start, end };
+}
+function getOffsetInContainer(node, offsetInNode) {
+  let total = 0;
+  const walker = document.createTreeWalker(textContainer, NodeFilter.SHOW_TEXT);
+  while (walker.nextNode()) {
+    const current = walker.currentNode;
+    if (current === node) {
+      total += offsetInNode;
+      break;
+    } else {
+      total += current.textContent.length;
+    }
+  }
+  return total;
+}
+
+/* ================================
+   4) CREATE USER ASSETS
+=============================== */
+btnPodcast.addEventListener('click',    () => createAsset('Podcast'));
+btnFlashcards.addEventListener('click', () => createAsset('Flashcards'));
+btnExplain.addEventListener('click',    () => createAsset('Explain'));
+btnExample.addEventListener('click',    () => createAsset('Example'));
+
+function createAsset(type) {
+  const sel = window.getSelection();
+  if (!sel.rangeCount) return;
+
+  const range = sel.getRangeAt(0);
+  const text  = sel.toString().trim();
+  if (!text) return;
+
+  const { start, end } = getOffsetsForRange(range);
+  userAssetsData.push({ type, startOffset: start, endOffset: end });
+
+  // create a new icon
+  const assetEl = document.createElement('div');
+  assetEl.className = 'asset-icon';
+
+  // color-coded
+  if (ASSET_STYLES[type]) {
+    assetEl.style.backgroundColor = ASSET_STYLES[type].bg;
+    assetEl.textContent = ASSET_STYLES[type].emoji + type;
+  } else {
+    assetEl.style.backgroundColor = '#666';
+    assetEl.textContent = type;
+  }
+
+  // hover => rehighlight
+  assetEl.addEventListener('mouseenter', () => highlightTextRange(start, end));
+  assetEl.addEventListener('mouseleave', clearHighlights);
+
+  // click => open modal (not community)
+  assetEl.addEventListener('click', () => {
+    openAssetModal(type, false);
+  });
+
+  myAssets.appendChild(assetEl);
+
+  highlightPopup.style.display = 'none';
+  sel.removeAllRanges();
+
+  // auto-open drawer if closed
+  if (!drawerOpen) {
+    toggleAssetsBtn.click();
+  }
+}
+
+/* ================================
+   5) COMMUNITY ASSETS
+   (Tutor-approved label + same modal, but includes forum)
+=============================== */
+// color-code and add star label
+communityAssets.querySelectorAll('.asset-icon').forEach(icon => {
+  const t = icon.dataset.assetType;
+  icon.insertAdjacentHTML('beforeend', `<div class="tutor-approved">⭐ Tutor-approved!</div>`);
+
+  if (ASSET_STYLES[t]) {
+    icon.style.backgroundColor = ASSET_STYLES[t].bg;
+    icon.textContent = ASSET_STYLES[t].emoji + t;
+  }
+  // re-insert the star label on top:
+  icon.insertAdjacentHTML('beforeend', `<div class="tutor-approved">⭐ Tutor-approved!</div>`);
+
+  // remove any duplicate label (since we inserted twice):
+  const stars = icon.querySelectorAll('.tutor-approved');
+  if (stars.length > 1) {
+    stars[0].remove();
+  }
+
+  // open modal on click => community = true
+  icon.addEventListener('click', () => {
+    openAssetModal(t, true);
+  });
+});
+
+/* ================================
+   6) MODAL + VOTING
+   with extended "forum" for community assets
+=============================== */
+function openAssetModal(assetType, isCommunity) {
+  modalOverlay.style.display = 'flex';
+  upvoteBtn.style.backgroundColor   = '';
+  downvoteBtn.style.backgroundColor = '';
+
+  // Basic content for the specific asset type
+  let mainHtml = '';
+  switch (assetType) {
+    case 'Podcast':
+      mainHtml = `
+        <h3>Mock Podcast Player</h3>
+        <p>Now playing your synthesized podcast audio...</p>
+        <div style="background:#3A3F45; padding:1rem; margin-top:1rem; border-radius:4px;">
+          <strong>[Fake Audio Waveform]</strong>
+        </div>
+      `;
+      break;
+    case 'Flashcards':
+      mainHtml = `
+        <h3>Mock Flashcards</h3>
+        <p>Front: "Term or Concept"</p>
+        <p>Back: "Definition or Explanation"</p>
+        <button style="margin-top:1rem; background:#4A4F55; border:none; padding:0.5rem 1rem; border-radius:4px; color:#EAEAEA;">
+          Flip
+        </button>
+      `;
+      break;
+    case 'Explain':
+      mainHtml = `
+        <h3>Brief Explanation</h3>
+        <p>This is where you'd show some text explaining the highlighted content in simpler terms.</p>
+      `;
+      break;
+    case 'Example':
+      mainHtml = `
+        <h3>Sample Example</h3>
+        <p>This is a simple example or scenario based on the selected content.</p>
+      `;
+      break;
+    default:
+      mainHtml = `<p>Unrecognized asset type: ${assetType}</p>`;
+  }
+
+  // If it's a community asset => show "Tutor-approved!" + comment forum
+  let extraCommunityStuff = '';
+  if (isCommunity) {
+    extraCommunityStuff = `
+      <div style="background:#FFC107; color:#333; font-weight:700; padding:0.3rem 0.5rem; border-radius:4px; margin-top:1rem;">
+        ⭐ Tutor-approved!
+      </div>
+      <div class="forum-section">
+        <h4>Community Forum</h4>
+        <div class="forum-message">
+          <strong>User1</strong>: Love this resource! It really clarifies the concept.
+        </div>
+        <div class="forum-message">
+          <strong>User2</strong>: Exactly what I needed, thanks for sharing!
+        </div>
+        <div class="forum-message tutor">
+          <strong>Tutor</strong>: Great observations. Let me know if you have more questions.
+        </div>
+        <div class="forum-message">
+          <strong>User3</strong>: How does this apply to real-world IoT devices?
+        </div>
+        <div class="forum-message tutor">
+          <strong>Tutor</strong>: The same principles apply, just on a smaller scale 
+          with low-power networks and limited connectivity.
+        </div>
+      </div>
+    `;
+  }
+
+  modalBody.innerHTML = mainHtml + extraCommunityStuff;
+}
+
+/* Close modal on X or outside click */
+closeModalBtn.addEventListener('click', () => {
+  modalOverlay.style.display = 'none';
+});
+modalOverlay.addEventListener('click', (e) => {
+  if (e.target === modalOverlay) {
+    modalOverlay.style.display = 'none';
+  }
+});
+
+/* Voting */
+upvoteBtn.addEventListener('click', () => {
+  upvoteBtn.style.backgroundColor   = '#2F8C36'; // green
+  downvoteBtn.style.backgroundColor = '';
+});
+downvoteBtn.addEventListener('click', () => {
+  downvoteBtn.style.backgroundColor = '#C43232'; // red
+  upvoteBtn.style.backgroundColor   = '';
+});
+
+/* ================================
+   7) RE-HIGHLIGHTING
+=============================== */
+function highlightTextRange(start, end) {
+  clearHighlights();
+
+  let charCount = 0;
+  const walker = document.createTreeWalker(textContainer, NodeFilter.SHOW_TEXT);
+  while (walker.nextNode()) {
+    const node = walker.currentNode;
+    const textLen = node.textContent.length;
+    const nodeStart = charCount;
+    const nodeEnd   = charCount + textLen;
+
+    const overlapStart = Math.max(start, nodeStart);
+    const overlapEnd   = Math.min(end, nodeEnd);
+
+    if (overlapStart < overlapEnd) {
+      // highlight portion in this node
+      const inNodeStart = overlapStart - nodeStart;
+      const inNodeEnd   = overlapEnd - nodeStart;
+
+      const beforeText    = node.textContent.slice(0, inNodeStart);
+      const highlightText = node.textContent.slice(inNodeStart, inNodeEnd);
+      const afterText     = node.textContent.slice(inNodeEnd);
+
+      const fragment = document.createDocumentFragment();
+      if (beforeText) {
+        fragment.appendChild(document.createTextNode(beforeText));
+      }
+      const span = document.createElement('span');
+      span.className = 're-highlight';
+      span.textContent = highlightText;
+      fragment.appendChild(span);
+
+      if (afterText) {
+        fragment.appendChild(document.createTextNode(afterText));
+      }
+      node.parentNode.replaceChild(fragment, node);
+    }
+    charCount += textLen;
+    if (charCount > end) break;
+  }
+}
+function clearHighlights() {
+  const highlights = textContainer.querySelectorAll('.re-highlight');
+  highlights.forEach(h => {
+    const txt = document.createTextNode(h.textContent);
+    h.parentNode.replaceChild(txt, h);
+  });
+}
+</script>
+</body>
+</html>
+
