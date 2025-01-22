@@ -647,9 +647,9 @@ function createAsset(type) {
   // On click => open modal
   chatAssetBlock.addEventListener('click', () => openAssetModal(type, false));
 
-  botMsg.textContent = `Just created a new `;
+  botMsg.textContent = `Here you go! `;
   botMsg.appendChild(chatAssetBlock);
-  botMsg.appendChild(document.createTextNode(` asset for you!`));
+  botMsg.appendChild(document.createTextNode(`:)`));
 
   chatMessages.appendChild(botMsg);
   chatMessages.scrollTop = chatMessages.scrollHeight;
