@@ -2,12 +2,11 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Syntea-Style Prototype (Tutor-Approved Community Assets + Forum)</title>
+  <title>Syntea-Style Prototype (Chat + Drawer + Updated Asset Blocks)</title>
   <style>
     /* =============================
        SYNTEA-INSPIRED DARK STYLE + LAYOUT
        ============================= */
-
     * {
       box-sizing: border-box;
       margin: 0; 
@@ -41,13 +40,13 @@
       margin-right: 0.5rem;
     }
 
-    /* MAIN CONTAINER: TWO COLUMNS BELOW NAV */
+    /* MAIN LAYOUT */
     .main-container {
       display: flex;
       min-height: calc(100vh - 60px);
     }
 
-    /* LEFT COLUMN: CONTENT */
+    /* LEFT COLUMN: highlightable text */
     .left-column {
       flex: 0 0 60%;
       padding: 2rem;
@@ -73,7 +72,7 @@
       color: #C6C6C6;
     }
 
-    /* RIGHT COLUMN: CHAT + ASSETS DRAWER */
+    /* RIGHT COLUMN: Chat + Assets Drawer */
     .right-column {
       flex: 1; 
       display: flex;
@@ -117,17 +116,20 @@
       margin-bottom: 1rem;
       background-color: #1F222A;
     }
+
+    /* Basic chat messages */
     .chat-message {
       margin-bottom: 0.7rem;
       line-height: 1.4;
     }
     .chat-message.bot {
-      color: #93CEF2; /* bot color in screenshot (blueish) */
+      color: #93CEF2; /* bot color */
     }
     .chat-message.user {
-      color: #FFD580; /* user color (goldish) */
+      color: #FFD580; /* user color */
       text-align: right;
     }
+
     .chat-input-area {
       display: flex;
       gap: 0.5rem;
@@ -155,7 +157,7 @@
       background: #4A4F55;
     }
 
-    /* SLIDING ASSETS DRAWER */
+    /* The container for user & community assets in the drawer */
     .assets-drawer {
       position: absolute;
       top: 0; 
@@ -174,6 +176,9 @@
     .assets-drawer.open {
       transform: translateX(0);
     }
+    .drawer-section {
+      margin-bottom: 2rem;
+    }
     .drawer-title {
       font-size: 1rem;
       text-transform: uppercase;
@@ -182,9 +187,6 @@
       letter-spacing: 0.5px;
       border-bottom: 1px solid #2D3138;
       padding-bottom: 0.5rem;
-    }
-    .drawer-section {
-      margin-bottom: 2rem;
     }
     .asset-icon {
       width: 100%;
@@ -207,7 +209,7 @@
       transform: translateY(-2px);
     }
 
-    /* STAR LABEL FOR TUTOR-APPROVED COMMUNITY ASSETS */
+    /* "Tutor-approved" star on community assets */
     .asset-icon .tutor-approved {
       position: absolute;
       top: -10px; 
@@ -221,7 +223,7 @@
       font-weight: 700;
     }
 
-    /* HIGHLIGHT POPUP */
+    /* The highlight popup */
     .highlight-popup {
       position: absolute;
       background: #2A2F35;
@@ -247,7 +249,7 @@
       background: #4A4F55;
     }
 
-    /* MODAL OVERLAY & CONTENT */
+    /* Modal overlay for community assets content */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -296,7 +298,7 @@
       background: #4A4F55;
     }
 
-    /* FORUM STYLING (FAKE COMMENTS) */
+    /* Fake "forum" inside the modal for community assets */
     .forum-section {
       margin-top: 1.5rem;
       padding-top: 1rem;
@@ -318,7 +320,7 @@
       color: #93CEF2; 
     }
 
-    /* RE-HIGHLIGHT CLASS */
+    /* For re-highlighting text (optional) */
     .re-highlight {
       background-color: #0053ba;
       color: #fff;
@@ -332,12 +334,11 @@
   <h2>Study Material</h2>
 </div>
 
-<!-- MAIN CONTENT AREA -->
+<!-- MAIN CONTAINER -->
 <div class="main-container">
-  <!-- LEFT COLUMN: highlightable text -->
+  <!-- LEFT: highlightable text -->
   <div class="left-column" id="textContainer">
     <h1>Introduction</h1>
-
     <h2>Topic 1: IoT Network Capabilities and Limitations</h2>
     <p>
       IoT networks' capabilities are typically limited compared to IT networks.
@@ -371,11 +372,11 @@
     </p>
   </div>
 
-  <!-- RIGHT COLUMN: Chat + Assets Drawer -->
+  <!-- RIGHT: chat + assets drawer -->
   <div class="right-column">
     <button class="toggle-assets-btn" id="toggleAssetsBtn">Show Assets</button>
 
-    <!-- Chat Container -->
+    <!-- Chat container -->
     <div class="chat-container">
       <div class="chat-messages" id="chatMessages">
         <div class="chat-message bot">
@@ -386,29 +387,25 @@
         </div>
         <div class="chat-message user">
 Wow - thanks, Syntea! Not really. Let's just study.
-</div>
-        
-<div class="chat-message bot">
-          How about we dive into the next part of your Internet of Things course?   
+        </div>
+        <div class="chat-message bot">
+          How about we dive into the next part of your Internet of Things course?  
         </div>
         <div class="chat-message user">
 Sounds great.
-</div>
-      
-<div class="chat-message bot">
+        </div>
+        <div class="chat-message bot">
 Highlight text at any time so we can dive deeper or create some personalized content just for you!
-</div> 
-      
+        </div>
+      </div>
 
-
-</div>
       <div class="chat-input-area">
         <input type="text" id="chatInput" placeholder="Type your message...">
         <button id="sendBtn">Send</button>
       </div>
     </div>
 
-    <!-- Sliding Drawer for Assets -->
+    <!-- The sliding drawer for assets -->
     <div class="assets-drawer" id="assetsDrawer">
       <div class="drawer-section">
         <div class="drawer-title">Generated Assets</div>
@@ -417,25 +414,25 @@ Highlight text at any time so we can dive deeper or create some personalized con
       <div class="drawer-section">
         <div class="drawer-title">Community Assets</div>
         <div id="communityAssets">
-          <!-- data-community="true" so we know to show "Tutor-approved!" and a forum -->
+          <!-- Hardcoded community items -->
           <div class="asset-icon" data-asset-type="Podcast"    data-community="true">Podcast</div>
           <div class="asset-icon" data-asset-type="Flashcards" data-community="true">Flashcards</div>
-          <div class="asset-icon" data-asset-type="Explain"    data-community="true">Explain</div>
+          <div class="asset-icon" data-asset-type="Quiz"    data-community="true">Quiz</div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- HIGHLIGHT POPUP -->
+<!-- The highlight popup for creating assets -->
 <div id="highlightPopup" class="highlight-popup">
   <button id="btnPodcast">🎧 Podcast</button>
   <button id="btnFlashcards">🗂 Flashcards</button>
-  <button id="btnExplain">🧐 Explain</button>
-  <button id="btnExample">🤔 Example</button>
+  <button id="btnQuiz">🧐 Quiz</button>
+  <button id="btnVideo">🤔 Video</button>
 </div>
 
-<!-- MODAL OVERLAY -->
+<!-- MODAL OVERLAY (community assets) -->
 <div id="modalOverlay" class="modal-overlay">
   <div class="modal-content">
     <button class="close-button" id="closeModalBtn">&times;</button>
@@ -448,47 +445,51 @@ Highlight text at any time so we can dive deeper or create some personalized con
 </div>
 
 <script>
-/* ================================
-   GLOBAL REFS & STATE
-=============================== */
-const textContainer    = document.getElementById('textContainer');
-const highlightPopup   = document.getElementById('highlightPopup');
+/* ==========================
+   GLOBAL REFERENCES & STATE
+========================== */
+const textContainer   = document.getElementById('textContainer');
+const highlightPopup  = document.getElementById('highlightPopup');
 
-const toggleAssetsBtn  = document.getElementById('toggleAssetsBtn');
-const assetsDrawer     = document.getElementById('assetsDrawer');
-let drawerOpen         = false;
+const toggleAssetsBtn = document.getElementById('toggleAssetsBtn');
+const assetsDrawer    = document.getElementById('assetsDrawer');
+let drawerOpen        = false;
 
-const chatMessages     = document.getElementById('chatMessages');
-const chatInput        = document.getElementById('chatInput');
-const sendBtn          = document.getElementById('sendBtn');
+const chatMessages    = document.getElementById('chatMessages');
+const chatInput       = document.getElementById('chatInput');
+const sendBtn         = document.getElementById('sendBtn');
 
-const myAssets         = document.getElementById('myAssets');
-const communityAssets  = document.getElementById('communityAssets');
+const myAssets        = document.getElementById('myAssets');
+const communityAssets = document.getElementById('communityAssets');
 
-const btnPodcast       = document.getElementById('btnPodcast');
-const btnFlashcards    = document.getElementById('btnFlashcards');
-const btnExplain       = document.getElementById('btnExplain');
-const btnExample       = document.getElementById('btnExample');
+const btnPodcast      = document.getElementById('btnPodcast');
+const btnFlashcards   = document.getElementById('btnFlashcards');
+const btnQuiz      = document.getElementById('btnQuiz');
+const btnVideo     = document.getElementById('btnVideo');
 
-const modalOverlay     = document.getElementById('modalOverlay');
-const closeModalBtn    = document.getElementById('closeModalBtn');
-const modalBody        = document.getElementById('modalBody');
-const upvoteBtn        = document.getElementById('upvoteBtn');
-const downvoteBtn      = document.getElementById('downvoteBtn');
+const modalOverlay    = document.getElementById('modalOverlay');
+const closeModalBtn   = document.getElementById('closeModalBtn');
+const modalBody       = document.getElementById('modalBody');
+const upvoteBtn       = document.getElementById('upvoteBtn');
+const downvoteBtn     = document.getElementById('downvoteBtn');
 
-let userAssetsData     = [];
+/* 
+  Store info about user-created assets if needed.
+  e.g. userAssetsData.push({ type, startOffset, endOffset, ... })
+*/
+let userAssetsData = [];
 
-/* Color-coded background + emoji for each asset type */
+/* Color-coded background & emojis for each asset type */
 const ASSET_STYLES = {
   Podcast:    { bg: '#4A768E', emoji: '🎧 ' },
   Flashcards: { bg: '#865B2F', emoji: '🗂 ' },
-  Explain:    { bg: '#4F6B8F', emoji: '🧐 ' },
-  Example:    { bg: '#5A8F4F', emoji: '🤔 ' }
+  Quiz:    { bg: '#4F6B8F', emoji: '🧐 ' },
+  Video:    { bg: '#5A8F4F', emoji: '🤔 ' }
 };
 
-/* ================================
-   1) ASSETS DRAWER TOGGLE
-=============================== */
+/* ==========================
+   1) Toggle Assets Drawer
+========================== */
 toggleAssetsBtn.addEventListener('click', () => {
   drawerOpen = !drawerOpen;
   if (drawerOpen) {
@@ -500,52 +501,48 @@ toggleAssetsBtn.addEventListener('click', () => {
   }
 });
 
-/* ================================
-   2) CHAT FUNCTIONALITY
-=============================== */
+/* ==========================
+   2) Basic Chat
+========================== */
 sendBtn.addEventListener('click', sendChatMessage);
 chatInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') {
-    sendChatMessage();
-  }
+  if (e.key === 'Enter') sendChatMessage();
 });
 
 function sendChatMessage() {
   const msg = chatInput.value.trim();
   if (!msg) return;
 
-  // user message
   addChatMessage(msg, 'user');
   chatInput.value = '';
 
   // mock bot response
   setTimeout(() => {
-    addChatMessage("I'm Syntea", 'bot');
+    addChatMessage("I'm Syntea and this is my mock-up for user-generated on-the-spotcontent.", 'bot');
   }, 400);
 }
 
 function addChatMessage(text, sender) {
-  const div = document.createElement('div');
-  div.classList.add('chat-message', sender);
-  div.textContent = text;
-  chatMessages.appendChild(div);
+  const msgDiv = document.createElement('div');
+  msgDiv.className = 'chat-message ' + sender;
+  msgDiv.textContent = text;
+  chatMessages.appendChild(msgDiv);
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-/* ================================
-   3) HIGHLIGHT POPUP
-=============================== */
+/* ==========================
+   3) Show/Hide Highlight Popup
+========================== */
 document.addEventListener('mouseup', () => {
-  const selection = window.getSelection();
-  if (!selection.rangeCount) {
+  const sel = window.getSelection();
+  if (!sel.rangeCount) {
     highlightPopup.style.display = 'none';
     return;
   }
-  const range = selection.getRangeAt(0);
-  const selectedText = selection.toString().trim();
+  const range = sel.getRangeAt(0);
+  const text  = sel.toString().trim();
 
-  // Show popup only if selection in #textContainer
-  if (!selectedText || !textContainer.contains(range.commonAncestorContainer)) {
+  if (!text || !textContainer.contains(range.commonAncestorContainer)) {
     highlightPopup.style.display = 'none';
     return;
   }
@@ -576,30 +573,29 @@ function getOffsetInContainer(node, offsetInNode) {
   return total;
 }
 
-/* ================================
-   4) CREATE USER ASSETS
-=============================== */
+/* ==========================
+   4) Create User Assets
+========================== */
 btnPodcast.addEventListener('click',    () => createAsset('Podcast'));
 btnFlashcards.addEventListener('click', () => createAsset('Flashcards'));
-btnExplain.addEventListener('click',    () => createAsset('Explain'));
-btnExample.addEventListener('click',    () => createAsset('Example'));
+btnQuiz.addEventListener('click',    () => createAsset('Quiz'));
+btnVideo.addEventListener('click',    () => createAsset('Video'));
 
 function createAsset(type) {
   const sel = window.getSelection();
   if (!sel.rangeCount) return;
 
   const range = sel.getRangeAt(0);
-  const text  = sel.toString().trim();
-  if (!text) return;
+  const highlightedText = range.toString().trim();
+  if (!highlightedText) return;
 
+  // store selection offsets if needed
   const { start, end } = getOffsetsForRange(range);
   userAssetsData.push({ type, startOffset: start, endOffset: end });
 
-  // create a new icon
+  // create an icon in "Generated Assets" 
   const assetEl = document.createElement('div');
   assetEl.className = 'asset-icon';
-
-  // color-coded
   if (ASSET_STYLES[type]) {
     assetEl.style.backgroundColor = ASSET_STYLES[type].bg;
     assetEl.textContent = ASSET_STYLES[type].emoji + type;
@@ -607,65 +603,86 @@ function createAsset(type) {
     assetEl.style.backgroundColor = '#666';
     assetEl.textContent = type;
   }
-
-  // hover => rehighlight
+  // On hover => re-highlight
   assetEl.addEventListener('mouseenter', () => highlightTextRange(start, end));
   assetEl.addEventListener('mouseleave', clearHighlights);
-
-  // click => open modal (not community)
+  // On click => open modal
   assetEl.addEventListener('click', () => {
     openAssetModal(type, false);
   });
-
   myAssets.appendChild(assetEl);
 
+  // hide popup & clear selection
   highlightPopup.style.display = 'none';
   sel.removeAllRanges();
 
-  // auto-open drawer if closed
+  // if drawer is closed, open it
   if (!drawerOpen) {
     toggleAssetsBtn.click();
   }
+
+  // 1) Insert a "user" chat message: "Make me a X about Y"
+  addChatMessage(`Make me a ${type} about this, please! :)`, 'user');
+
+  // 2) Insert a "bot" chat message with a color-coded block referencing the new asset
+  const botMsg = document.createElement('div');
+  botMsg.className = 'chat-message bot';
+  
+  // replicate the style of the asset-icon in the chat
+  const chatAssetBlock = document.createElement('div');
+  chatAssetBlock.style.display = 'inline-block';
+  chatAssetBlock.style.backgroundColor = ASSET_STYLES[type]?.bg || '#666';
+  chatAssetBlock.style.color           = '#EAEAEA';
+  chatAssetBlock.style.padding         = '0.3rem 0.6rem';
+  chatAssetBlock.style.borderRadius    = '6px';
+  chatAssetBlock.style.marginTop       = '0.5rem';
+  chatAssetBlock.style.fontWeight      = '600';
+  chatAssetBlock.style.textTransform   = 'uppercase';
+  chatAssetBlock.style.cursor         = 'pointer';
+  chatAssetBlock.textContent = (ASSET_STYLES[type]?.emoji || '') + type;
+
+  // On hover => highlight text
+  chatAssetBlock.addEventListener('mouseenter', () => highlightTextRange(start, end));
+  chatAssetBlock.addEventListener('mouseleave', clearHighlights);
+  // On click => open modal
+  chatAssetBlock.addEventListener('click', () => openAssetModal(type, false));
+
+  botMsg.textContent = `Just created a new `;
+  botMsg.appendChild(chatAssetBlock);
+  botMsg.appendChild(document.createTextNode(` asset for you!`));
+
+  chatMessages.appendChild(botMsg);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-/* ================================
+/* ==========================
    5) COMMUNITY ASSETS
-   (Tutor-approved label + same modal, but includes forum)
-=============================== */
-// color-code and add star label
+========================== */
 communityAssets.querySelectorAll('.asset-icon').forEach(icon => {
   const t = icon.dataset.assetType;
   icon.insertAdjacentHTML('beforeend', `<div class="tutor-approved">⭐ Tutor-approved!</div>`);
-
   if (ASSET_STYLES[t]) {
     icon.style.backgroundColor = ASSET_STYLES[t].bg;
     icon.textContent = ASSET_STYLES[t].emoji + t;
   }
-  // re-insert the star label on top:
   icon.insertAdjacentHTML('beforeend', `<div class="tutor-approved">⭐ Tutor-approved!</div>`);
-
-  // remove any duplicate label (since we inserted twice):
   const stars = icon.querySelectorAll('.tutor-approved');
   if (stars.length > 1) {
     stars[0].remove();
   }
-
-  // open modal on click => community = true
   icon.addEventListener('click', () => {
     openAssetModal(t, true);
   });
 });
 
-/* ================================
+/* ==========================
    6) MODAL + VOTING
-   with extended "forum" for community assets
-=============================== */
+========================== */
 function openAssetModal(assetType, isCommunity) {
   modalOverlay.style.display = 'flex';
   upvoteBtn.style.backgroundColor   = '';
   downvoteBtn.style.backgroundColor = '';
 
-  // Basic content for the specific asset type
   let mainHtml = '';
   switch (assetType) {
     case 'Podcast':
@@ -687,26 +704,25 @@ function openAssetModal(assetType, isCommunity) {
         </button>
       `;
       break;
-    case 'Explain':
+    case 'Quiz':
       mainHtml = `
         <h3>Brief Explanation</h3>
-        <p>This is where you'd show some text explaining the highlighted content in simpler terms.</p>
+        <p>This is where you'd get a small quiz module based on the highlighted content.</p>
       `;
       break;
-    case 'Example':
+    case 'Video':
       mainHtml = `
-        <h3>Sample Example</h3>
-        <p>This is a simple example or scenario based on the selected content.</p>
+        <h3>Sample Video</h3>
+        <p>This is where you'd see a small video based on your selected content.</p>
       `;
       break;
     default:
       mainHtml = `<p>Unrecognized asset type: ${assetType}</p>`;
   }
 
-  // If it's a community asset => show "Tutor-approved!" + comment forum
-  let extraCommunityStuff = '';
+  let extra = '';
   if (isCommunity) {
-    extraCommunityStuff = `
+    extra = `
       <div style="background:#FFC107; color:#333; font-weight:700; padding:0.3rem 0.5rem; border-radius:4px; margin-top:1rem;">
         ⭐ Tutor-approved!
       </div>
@@ -721,21 +737,14 @@ function openAssetModal(assetType, isCommunity) {
         <div class="forum-message tutor">
           <strong>Tutor</strong>: Great observations. Let me know if you have more questions.
         </div>
-        <div class="forum-message">
-          <strong>User3</strong>: How does this apply to real-world IoT devices?
-        </div>
-        <div class="forum-message tutor">
-          <strong>Tutor</strong>: The same principles apply, just on a smaller scale 
-          with low-power networks and limited connectivity.
-        </div>
       </div>
     `;
   }
 
-  modalBody.innerHTML = mainHtml + extraCommunityStuff;
+  modalBody.innerHTML = mainHtml + extra;
 }
 
-/* Close modal on X or outside click */
+/* close modal */
 closeModalBtn.addEventListener('click', () => {
   modalOverlay.style.display = 'none';
 });
@@ -745,35 +754,33 @@ modalOverlay.addEventListener('click', (e) => {
   }
 });
 
-/* Voting */
+/* voting in modal */
 upvoteBtn.addEventListener('click', () => {
-  upvoteBtn.style.backgroundColor   = '#2F8C36'; // green
+  upvoteBtn.style.backgroundColor   = '#2F8C36'; 
   downvoteBtn.style.backgroundColor = '';
 });
 downvoteBtn.addEventListener('click', () => {
-  downvoteBtn.style.backgroundColor = '#C43232'; // red
+  downvoteBtn.style.backgroundColor = '#C43232';
   upvoteBtn.style.backgroundColor   = '';
 });
 
-/* ================================
-   7) RE-HIGHLIGHTING
-=============================== */
+/* ==========================
+   7) RE-HIGHLIGHTING LOGIC
+========================== */
 function highlightTextRange(start, end) {
   clearHighlights();
-
   let charCount = 0;
   const walker = document.createTreeWalker(textContainer, NodeFilter.SHOW_TEXT);
   while (walker.nextNode()) {
-    const node = walker.currentNode;
-    const textLen = node.textContent.length;
-    const nodeStart = charCount;
-    const nodeEnd   = charCount + textLen;
+    const node     = walker.currentNode;
+    const textLen  = node.textContent.length;
+    const nodeStart= charCount;
+    const nodeEnd  = charCount + textLen;
 
     const overlapStart = Math.max(start, nodeStart);
     const overlapEnd   = Math.min(end, nodeEnd);
 
     if (overlapStart < overlapEnd) {
-      // highlight portion in this node
       const inNodeStart = overlapStart - nodeStart;
       const inNodeEnd   = overlapEnd - nodeStart;
 
@@ -809,4 +816,3 @@ function clearHighlights() {
 </script>
 </body>
 </html>
-
